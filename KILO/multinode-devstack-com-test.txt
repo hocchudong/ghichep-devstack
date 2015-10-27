@@ -1,0 +1,36 @@
+### HUONG DAN
+# git clone -b stable/kilo https://github.com/openstack-dev/devstack.git
+
+
+[[local|localrc]]
+DEST=/opt/stack
+
+# Logging
+LOGFILE=$DEST/logs/stack.sh.log
+VERBOSE=True
+SCREEN_LOGDIR=$DEST/logs/screen
+
+# Credentials
+ADMIN_PASSWORD=openstack
+MYSQL_PASSWORD=openstack
+RABBIT_PASSWORD=openstack
+SERVICE_PASSWORD=openstack
+SERVICE_TOKEN=tokentoken
+
+# Host detail
+#EDITME
+HOST_IP=172.16.69.223
+SERVICE_HOST=172.16.69.215
+Q_HOST=$SERVICE_HOST
+
+# Services
+disable_all_services
+ENABLED_SERVICES=neutron,n-cpu,rabbit,q-api,q-agt,n-novnc
+
+#plugin
+Q_PLUGIN=ml2
+Q_AGENT=openvswitch
+
+#vxlan
+Q_ML2_TENANT_NETWORK_TYPE=vxlan
+
