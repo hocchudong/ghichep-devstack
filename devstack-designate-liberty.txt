@@ -1,11 +1,7 @@
-# git clone -b stable/kilo https://github.com/openstack-dev/devstack.git
-# git clone -b stable/kilo https://github.com/openstack/designate.git
+# git clone -b stable/liberty https://github.com/openstack-dev/devstack.git
+# git clone -b stable/liberty https://github.com/openstack/designate.git
 # cd devstack
 # ../designate/contrib/devstack/install.sh
-
-
-############
-
 
 [[local|localrc]]
 DEST=/opt/stack
@@ -61,6 +57,14 @@ OVS_BRIDGE_MAPPINGS=public:br-ex
 
 enable_service tempest
 enable_service heat h-api h-api-cfn h-api-cw h-eng
+
+# Designate Devstack Config
+# =========================
+# Enable core Designate services
+ENABLED_SERVICES+=,designate,designate-central,designate-api,designate-pool-manager,designate-zone-manager,designate-mdns
+
+# Optional Horizon
+ENABLED_SERVICES+=,horizon
 
 #vnc
 enable_service n-novnc
