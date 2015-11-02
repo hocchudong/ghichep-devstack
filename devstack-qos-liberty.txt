@@ -1,7 +1,4 @@
-# git clone -b stable/liberty https://github.com/openstack-dev/devstack.git
-# git clone -b stable/liberty https://github.com/openstack/designate.git
-# cd devstack
-# ../designate/contrib/devstack/install.sh
+#  git clone -b stable/liberty https://github.com/openstack-dev/devstack.git
 
 [[local|localrc]]
 DEST=/opt/stack
@@ -13,7 +10,7 @@ SCREEN_LOGDIR=$DEST/logs/screen
 OFFLINE=False
 
 # HOST
-HOST_IP=172.16.69.215
+HOST_IP=172.16.69.228
 
 # Credentials
 ADMIN_PASSWORD=openstack
@@ -30,6 +27,9 @@ enable_service q-dhcp
 enable_service q-meta
 enable_service q-l3
 
+enable_plugin neutron git://git.openstack.org/openstack/neutron stable/liberty
+enable_service q-qos
+
 #ml2
 Q_PLUGIN=ml2
 Q_AGENT=openvswitch
@@ -41,10 +41,8 @@ Q_ML2_TENANT_NETWORK_TYPE=vxlan
 FLOATING_RANGE=172.16.69.0/24
 Q_FLOATING_ALLOCATION_POOL=start=172.16.69.171,end=172.16.69.179
 PUBLIC_NETWORK_GATEWAY=172.16.69.1
-
 FIXED_RANGE=192.168.10.0/24
 NETWORK_GATEWAY=192.168.10.1
-
 PUBLIC_INTERFACE=eth1
 
 Q_USE_PROVIDERNET_FOR_PUBLIC=True
@@ -55,16 +53,7 @@ PUBLIC_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex
 
 
-enable_service tempest
-enable_service heat h-api h-api-cfn h-api-cw h-eng
-
-# Designate Devstack Config
-# =========================
-# Enable core Designate services
-ENABLED_SERVICES+=,designate,designate-central,designate-api,designate-pool-manager,designate-zone-manager,designate-mdns
-
-# Optional Horizon
-ENABLED_SERVICES+=,horizon
+disable_service tempest
 
 #vnc
 enable_service n-novnc
