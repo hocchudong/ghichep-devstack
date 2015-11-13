@@ -54,6 +54,8 @@ PUBLIC_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex
 
 
+disable_service tempest
+
 #vnc
 enable_service n-novnc
 enable_service n-cauth
