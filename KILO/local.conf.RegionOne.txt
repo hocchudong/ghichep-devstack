@@ -1,0 +1,64 @@
+### HUONG DAN
+# git clone -b stable/kilo https://github.com/openstack-dev/devstack.git
+## VM su dung 2 NIC
+### eth0: MGNT
+### eth1: EXT
+#######################################
+
+[[local|localrc]]
+DEST=/opt/stack
+
+# Logging
+LOGFILE=$DEST/logs/stack.sh.log
+VERBOSE=True
+SCREEN_LOGDIR=$DEST/logs/screen
+OFFLINE=False
+
+# HOST
+HOST_IP=172.16.69.228
+
+# Credentials
+ADMIN_PASSWORD=openstack
+MYSQL_PASSWORD=openstack
+RABBIT_PASSWORD=openstack
+SERVICE_PASSWORD=openstack
+SERVICE_TOKEN=tokentoken
+
+
+disable_service n-net
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-meta
+enable_service q-l3
+
+#ml2
+Q_PLUGIN=ml2
+Q_AGENT=openvswitch
+
+# vxlan
+Q_ML2_TENANT_NETWORK_TYPE=vxlan
+
+# Networking
+FLOATING_RANGE=172.16.69.0/24
+Q_FLOATING_ALLOCATION_POOL=start=172.16.69.171,end=172.16.69.179
+PUBLIC_NETWORK_GATEWAY=172.16.69.1
+
+FIXED_RANGE=192.168.10.0/24
+NETWORK_GATEWAY=192.168.10.1
+
+PUBLIC_INTERFACE=eth1
+
+Q_USE_PROVIDERNET_FOR_PUBLIC=True
+Q_L3_ENABLED=True
+Q_USE_SECGROUP=True
+OVS_PHYSICAL_BRIDGE=br-ex
+PUBLIC_BRIDGE=br-ex
+OVS_BRIDGE_MAPPINGS=public:br-ex
+
+
+disable_service tempest
+
+#vnc
+enable_service n-novnc
+enable_service n-cauth
