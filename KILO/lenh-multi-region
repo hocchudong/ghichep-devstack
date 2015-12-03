@@ -1,0 +1,24 @@
+$ nova service-list
+$ nova --os-region-name RegionTwo service-list
+
+
+nova --os-regione-name RegioneOne boot VMOne --flavor=m1.tiny --image c20bff4c-c874-4261-b954-c5aea90a603c
+
+
+nova --os-region-name RegionTwo boot VMTwo --flavor=m1.tiny --image d77dd539-f76f-4f50-b7a5-f62f657b0e25
+
+
+$nova --os-region-name RegionTwo list
+$nova --os-region-name RegioneOne list
+
+
+
+OS_REGION_NAME=RegionTwo
+OS_IDENTITY_API_VERSION=2.0
+OS_PASSWORD=password
+OS_AUTH_URL=http://20.10.0.1:5000/v2.0
+OS_USERNAME=admin
+OS_TENANT_NAME=demo
+OS_VOLUME_API_VERSION=2
+OS_CACERT=/opt/stack/data/CA/int-ca/ca-chain.pem
+OS_NO_CACHE=1
