@@ -1,8 +1,8 @@
 ##################################################################################
-######## Cai dat RALLY tren devstack
+######## Cài đặt RALLY trên DEVSTACK
 ##################################################################################
 # Chú ý
-- Tất cả đều cài vơi user stack
+- Tất cả đều cài với user stack
 
 # Cach 1: Cai voi phien ban OpenStack Liberty
 
