@@ -9,7 +9,7 @@
 # git clone -b stable/liberty https://github.com/openstack-dev/devstack.git
 # git clone https://github.com/openstack/rally
 
-# Cach 3: Cai voi phien ban OpenStack Liberty
+# Cach 2: Cai voi phien ban OpenStack mới nhất
 # git clone https://git.openstack.org/openstack-dev/devstack
 # git clone https://github.com/openstack/rally
 
@@ -27,7 +27,7 @@ SCREEN_LOGDIR=$DEST/logs/screen
 OFFLINE=False
 
 # HOST
-HOST_IP=172.16.69.215
+HOST_IP=172.16.69.228
 
 # Credentials
 ADMIN_PASSWORD=openstack
@@ -53,7 +53,7 @@ Q_ML2_TENANT_NETWORK_TYPE=vxlan
 
 # Networking
 FLOATING_RANGE=172.16.69.0/24
-Q_FLOATING_ALLOCATION_POOL=start=172.16.69.117,end=172.16.69.127
+Q_FLOATING_ALLOCATION_POOL=start=172.16.69.130,end=172.16.69.139
 PUBLIC_NETWORK_GATEWAY=172.16.69.1
 
 FIXED_RANGE=192.168.10.0/24
@@ -68,7 +68,6 @@ OVS_PHYSICAL_BRIDGE=br-ex
 PUBLIC_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex
 
-
 # Khong can su dung tempest
 disable_service tempest
 # enable_service tempest
@@ -78,7 +77,6 @@ enable_service heat h-api h-api-cfn h-api-cw h-eng
 
 #Khai bao cai dat rally
 enable_plugin rally https://github.com/openstack/rally master
-
 
 #vnc
 enable_service n-novnc
