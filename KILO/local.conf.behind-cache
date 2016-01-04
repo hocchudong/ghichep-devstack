@@ -1,0 +1,71 @@
+# git clone -b stable/kilo https://github.com/openstack-dev/devstack.git
+
+### Neu su dung apt-cache-ng lam proxy thi khai bao nhu sau
+# export http_proxy=http://172.16.20.19:3142
+# export https_proxy=https://172.16.20.19:3142
+# export no_proxy=172.16.20.250,127.0.0.1   # dia chi ip cac card mang cua may devstack
+
+
+
+[[local|localrc]]
+DEST=/opt/stack
+
+# Khai bao log cho devstack
+LOGFILE=$DEST/logs/stack.sh.log
+VERBOSE=True
+SCREEN_LOGDIR=$DEST/logs/screen
+OFFLINE=F
+
+# Khai bao IP cua may cai dat devstack
+HOST_IP=172.16.20.250
+
+# Khai bao mat khau cho cac dich vu
+ADMIN_PASSWORD=vietstacker
+MYSQL_PASSWORD=vietstacker
+RABBIT_PASSWORD=vietstacker
+SERVICE_PASSWORD=vietstacker
+SERVICE_TOKEN=vietstacker
+
+
+disable_service n-net
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-meta
+enable_service q-l3
+
+#ml2
+Q_PLUGIN=ml2
+Q_AGENT=openvswitch
+
+# vxlan
+Q_ML2_TENANT_NETWORK_TYPE=vxlan
+
+# Networking
+FLOATING_RANGE=172.16.20.0/24
+Q_FLOATING_ALLOCATION_POOL=start=172.16.20.160,end=172.16.20.169
+PUBLIC_NETWORK_GATEWAY=172.16.20.1
+
+FIXED_RANGE=172.16.0.0/24
+NETWORK_GATEWAY=172.16.0.1
+
+PUBLIC_INTERFACE=eth0
+
+Q_USE_PROVIDERNET_FOR_PUBLIC=True
+Q_L3_ENABLED=True
+Q_USE_SECGROUP=True
+OVS_PHYSICAL_BRIDGE=br-ex
+PUBLIC_BRIDGE=br-ex
+OVS_BRIDGE_MAPPINGS=public:br-ex
+
+
+# Neu dung de dev thi thay enable_service cho dong duoi
+disable_service tempest
+
+# Khai bao su dung devstack dung sau http thay cho git de tai cac goi ve
+GIT_BASE=http://github.com
+
+
+#vnc
+enable_service n-novnc
+enable_service n-cauth

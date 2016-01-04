@@ -1,0 +1,73 @@
+# git clone -b stable/kilo https://github.com/openstack-dev/devstack.git
+
+[[local|localrc]]
+DEST=/opt/stack
+
+# Khai bao log cho devstack
+LOGFILE=$DEST/logs/stack.sh.log
+VERBOSE=True
+SCREEN_LOGDIR=$DEST/logs/screen
+OFFLINE=False
+
+# Khai bao IP cua may cai dat devstack
+HOST_IP=172.16.20.201
+
+# Khai bao mat khau cho cac dich vu
+ADMIN_PASSWORD=vietstacker
+MYSQL_PASSWORD=vietstacker
+RABBIT_PASSWORD=vietstacker
+SERVICE_PASSWORD=vietstacker
+SERVICE_TOKEN=vietstacker
+
+
+disable_service n-net
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-meta
+enable_service q-l3
+
+#ml2
+Q_PLUGIN=ml2
+Q_AGENT=openvswitch
+
+# vxlan
+Q_ML2_TENANT_NETWORK_TYPE=vxlan
+
+# Networking
+FLOATING_RANGE=172.16.20.0/24
+Q_FLOATING_ALLOCATION_POOL=start=172.16.20.50,end=172.16.20.59
+PUBLIC_NETWORK_GATEWAY=172.16.20.1
+
+FIXED_RANGE=172.16.0.0/24
+NETWORK_GATEWAY=172.16.0.1
+
+PUBLIC_INTERFACE=eth0
+
+Q_USE_PROVIDERNET_FOR_PUBLIC=True
+Q_L3_ENABLED=True
+Q_USE_SECGROUP=True
+OVS_PHYSICAL_BRIDGE=br-ex
+PUBLIC_BRIDGE=br-ex
+OVS_BRIDGE_MAPPINGS=public:br-ex
+
+
+# Neu dung de dev thi thay enable_service cho dong duoi
+disable_service tempest
+
+# ceilometer
+enable_service ceilometer-acompute ceilometer-acentral ceilometer-anotification ceilometer-collector
+enable_service ceilometer-alarm-notifier ceilometer-alarm-evaluator
+enable_service ceilometer-api
+
+# horizon
+enable_service horizon
+
+# cloudkitty
+enable_plugin cloudkitty https://github.com/openstack/cloudkitty master
+enable_service ck-api ck-proc
+
+
+#vnc
+enable_service n-novnc
+enable_service n-cauth
