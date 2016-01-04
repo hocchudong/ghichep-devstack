@@ -55,7 +55,11 @@ PUBLIC_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex
 
 
-enable_service tempest
+# Khong can su dung tempest
+disable_service tempest
+# enable_service tempest
+
+#Khai bao cho Heat
 enable_service heat h-api h-api-cfn h-api-cw h-eng
 
 # Designate Devstack Config

@@ -1,11 +1,21 @@
-# git clone -b stable/kilo https://github.com/openstack-dev/devstack.git
-# git clone -b stable/kilo https://github.com/openstack/designate.git
-# cd devstack
-# ../designate/contrib/devstack/install.sh
+##################################################################################
+######## Cai dat RALLY tren devstack
+##################################################################################
+# Chú ý
+- Tất cả đều cài vơi user stack
+
+# Cach 1: Cai voi phien ban OpenStack Liberty
+
+# git clone -b stable/liberty https://github.com/openstack-dev/devstack.git
+# git clone https://github.com/openstack/rally
+
+# Cach 3: Cai voi phien ban OpenStack Liberty
+# git clone https://git.openstack.org/openstack-dev/devstack
+# git clone https://github.com/openstack/rally
 
 
-############
-
+##################################################################################
+# Khai bao file local nhu duoi, chu y dang su dung 2 NIC. eth1 lam public
 
 [[local|localrc]]
 DEST=/opt/stack
@@ -65,6 +75,10 @@ disable_service tempest
 
 #Khai bao cho Heat
 enable_service heat h-api h-api-cfn h-api-cw h-eng
+
+#Khai bao cai dat rally
+enable_plugin rally https://github.com/openstack/rally master
+
 
 #vnc
 enable_service n-novnc
