@@ -1,5 +1,38 @@
 # Các ghi chép về Devstack
 
+## Chuẩn bị
+
+- Nâng cấp các gói cần thiết
+```sh
+apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && init 6
+```
+
+- Tạo user stack
+```sh
+adduser stack
+apt-get -y install sudo 
+apt-get -y install git
+echo "stack ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+```
+
+### Bắt đầu cài devstack 
+
+- Đăng nhập với tài khoản stack hoặc chuyển sang user stack
+```sh
+su - stack
+```
+
+- Tải gói từ devstack về
+
+```sh
+Tải gói mới nhất: 
+
+ git clone https://github.com/openstack-dev/devstack.git
+
+Hoặc chỉ định gói:
+ git clone -b stable/liberty https://github.com/openstack-dev/devstack.git
+
+```
 
 ### VOLUME - CINDER
 
