@@ -34,6 +34,30 @@ Hoặc chỉ định gói:
 
 ```
 
+### NEUTRON - Các ghi chép devstack với NEUTRON
+
+- Khai báo chỉ sử dụng IPv4 trong devstack. Mặc định từ bản Kilo trở đi, devstack enable cả IPv4 và IPv6
+```sh
+IP_VERSION=4
+```
+
+- Khai báo tham số MTU cho các máy ảo.
+```sh
+- Lúc này các máy ảo sẽ có MTU được đặt với giá trị ở dòng khai báo sau:
+
+# Set MTU
+Q_ML2_PLUGIN_PATH_MTU=1454
+
+```
+
+#### Sử dụng devstack với mô hình Provider network (không có L3 Agent)
+```sh
+Tham khảo file NO-L3-controller-local.conf
+```
+
+#### Sử dụng devstack với mô hình Selfservice-network (có L3 Agent)
+
+
 ### CINDER - Các ghi chép devstack với cinder
 
 - Mặc định thì devstack sẽ tạo ra ổ loop để cài đặt cinder volume. Nếu muốn sử dụng ổ sdb, sdc ... thì cần thực hiện như sau
