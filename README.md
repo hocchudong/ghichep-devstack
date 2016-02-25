@@ -66,12 +66,14 @@ Tham khảo file NO-L3-controller-local.conf
  
  ```sh
  pvcreate /dev/sdb
- vgcreate stack-volumes /dev/sdb
+ vgcreate stack-volumes-lvmdriver-1 /dev/sdb
  ```
  - Khai báo trong file local.conf đoạn sau
  ```sh
  ....
- VOLUME_GROUP="stack-volumes"
+ 
+ 
+ VOLUME_GROUP="stack-volumes-lvmdriver-1"
  ```
  
 
@@ -122,6 +124,16 @@ iface br-ex inet static
 
  ## Khởi động lại dịch vụ mạng hoặc khởi động lại cả openstack (nếu khởi động lại openstack nhớ chạy lệnh rejoin-stack.sh)
 ### SAu đó cấu hình lại dải IP Public trùng với dải ip của card eth0 là ok
+
+```
+
+#### Fix lỗi cho CINDER 
+```sh
+Fix lỗi Cinder
+- Gõ lệnh dưới trước khi chạy .rejoin-stack
+
+sudo losetup /dev/loop0 /opt/stack/data/stack-volumes-default-backing-file
+sudo losetup /dev/loop1 /opt/stack/data/stack-volumes-lvmdriver-1-backing-file
 
 ```
  
