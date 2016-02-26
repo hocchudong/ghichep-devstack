@@ -1,6 +1,8 @@
 ### HUONG DAN
+# git clone https://github.com/openstack-dev/devstack.git
 # git clone -b stable/kilo https://github.com/openstack-dev/devstack.git
 
+##########################################
 
 [[local|localrc]]
 DEST=/opt/stack
@@ -12,10 +14,11 @@ SCREEN_LOGDIR=$DEST/logs/screen
 
 # Credentials
 ADMIN_PASSWORD=openstack
-MYSQL_PASSWORD=openstack
-RABBIT_PASSWORD=openstack
-SERVICE_PASSWORD=openstack
-SERVICE_TOKEN=tokentoken
+MYSQL_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=$ADMIN_PASSWORD
+
 
 # Host detail
 #EDITME

@@ -1,6 +1,8 @@
 ### HUONG DAN
+# git clone https://github.com/openstack-dev/devstack.git
 # git clone -b stable/kilo https://github.com/openstack-dev/devstack.git
 
+##################################################
 
 [[local|localrc]]
 DEST=/opt/stack
@@ -14,12 +16,14 @@ OFFLINE=False
 # HOST
 HOST_IP=172.16.69.215
 
+MULTI_HOST=1
+
 # Credentials
 ADMIN_PASSWORD=openstack
-MYSQL_PASSWORD=openstack
-RABBIT_PASSWORD=openstack
-SERVICE_PASSWORD=openstack
-SERVICE_TOKEN=tokentoken
+MYSQL_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=$ADMIN_PASSWORD
 
 
 disable_service n-net
@@ -38,7 +42,7 @@ Q_ML2_TENANT_NETWORK_TYPE=vxlan
 
 # Networking
 FLOATING_RANGE=172.16.69.0/24
-Q_FLOATING_ALLOCATION_POOL=start=172.16.69.171,end=172.16.69.179
+Q_FLOATING_ALLOCATION_POOL=start=172.16.69.30,end=172.16.69.39
 PUBLIC_NETWORK_GATEWAY=172.16.69.1
 
 FIXED_RANGE=192.168.10.0/24
@@ -53,6 +57,15 @@ OVS_PHYSICAL_BRIDGE=br-ex
 PUBLIC_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex
 
+Q_ML2_PLUGIN_PATH_MTU=1454
+
+
+# Setup phien ban IP se su dung
+IP_VERSION=4
+
+
+# Setup phien ban IP se su dung
+IP_VERSION=4
 
 disable_service tempest
 
