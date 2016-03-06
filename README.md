@@ -146,3 +146,9 @@ http://www.rushiagr.com/blog/2014/08/05/devstack-behind-proxy/
 
 - Khai báo dòng này để cài các gói offline nếu cần 
 OFFLINE=True
+
+
+- ODL 
+
+https://gist.github.com/gvranganvtn
+
