@@ -152,3 +152,6 @@ OFFLINE=True
 
 https://gist.github.com/gvranganvtn
 
+
+### Tham khảo
+- http://ronaldbradford.com/blog/tag/devstack/
