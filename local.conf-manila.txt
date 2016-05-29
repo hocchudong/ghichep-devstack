@@ -1,0 +1,73 @@
+# Date: 22.05.2016
+# git clone https://github.com/openstack-dev/devstack.git
+# git clone -b stable/mitaka https://github.com/openstack-dev/devstack.git
+# cd devstack
+
+
+
+[[local|localrc]]
+# Credentials
+DATABASE_PASSWORD=devstack
+ADMIN_PASSWORD=devstack
+SERVICE_PASSWORD=devstack
+SERVICE_TOKEN=devstack
+RABBIT_PASSWORD=devstack
+GUEST_PASSWORD=devstack
+MYSQL_HOST=127.0.0.1
+MYSQL_USER=root
+MYSQL_PASSWORD=devstack
+RABBIT_HOST=127.0.0.1
+LIBVIRT_TYPE=qemu
+GLANCE_HOSTPORT=127.0.0.1:9292
+SERVICE_PASSWORD=devstack
+ENABLED_SERVICES=key,n-api,n-crt,n-obj,n-cpu,n-net,n-cond,n-sch,n-novnc,n-xvnc,n-cauth
+#glance
+ENABLED_SERVICES+=,g-api,g-reg
+#cinder
+ENABLED_SERVICES+=,cinder,c-sch,c-api,c-vol,c-bak
+#manila
+ENABLED_SERVICES+=,manila,m-api,m-sch,m-shr
+#others
+ENABLED_SERVICES+=,horizon,rabbit,mysql
+#neutron needs for manila
+disable_service n-net
+enable_service q-svc,q-agt,q-dhcp,q-l3,q-meta,neutron
+#
+LOGDAYS=1
+LOGFILE=$DEST/devstack.log
+SCREEN_LOGDIR=$DEST/logs/screen
+RECLONE=yes
+API_RATE_LIMIT=False
+
+Q_PLUGIN=ml2
+ENABLE_TENANT_VLANS=True
+ML2_VLAN_RANGES=physnet1:100:4000
+PHYSICAL_NETWORK=physnet1
+OVS_PHYSICAL_BRIDGE=br-eth1
+
+# Networking
+FLOATING_RANGE=172.16.69.0/24
+Q_FLOATING_ALLOCATION_POOL=start=172.16.69.140,end=172.16.69.149
+PUBLIC_NETWORK_GATEWAY=172.16.69.1
+
+FIXED_RANGE=192.168.10.0/24
+NETWORK_GATEWAY=192.168.10.1
+
+Q_ML2_PLUGIN_MECHANISM_DRIVERS=openvswitch
+Q_ML2_PLUGIN_TYPE_DRIVERS=flat,vlan,vxlan
+SHARE_BACKING_FILE_SIZE=8G
+FLAT_INTERFACE=eth2
+
+IMAGE_URLS="https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-uec.tar.gz"
+HOST_IP=172.16.69.228
+
+MANILA_REPO_ROOT=openstack
+enable_plugin manila https://github.com/openstack/manila
+MANILA_UI_ENABLED=True
+
+
+# Setup phien ban IP se su dung
+IP_VERSION=4
+
+# Khong can su dung tempest
+disable_service tempest
