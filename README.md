@@ -9,9 +9,10 @@ apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && init 6
 
 - Tạo user stack
 ```sh
+apt-get -y install sudo git
+
 adduser stack
-apt-get -y install sudo 
-apt-get -y install git
+
 echo "stack ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 ```
 
