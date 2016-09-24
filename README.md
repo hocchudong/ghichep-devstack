@@ -69,16 +69,97 @@ Tham khảo file NO-L3-controller-local.conf
  pvcreate /dev/sdb
  vgcreate stack-volumes-lvmdriver-1 /dev/sdb
  ```
- - Khai báo trong file local.conf đoạn sau
- ```sh
- ....
- 
- 
- VOLUME_GROUP="stack-volumes-lvmdriver-1"
- ```
- 
+    - Khai báo trong file local.conf đoạn sau
+        ```sh
+        ....
+        VOLUME_GROUP="stack-volumes-lvmdriver-1"
+        ...
+        ```
 
- 
+- Nếu muốn sử dụng ổ `vdb` làm nơi lưu trữ Volume thì thực hiện các bước sau khi khởi động lại máy cài cinder
+
+    - Kiểm tra xem có ổ vdb hay chưa bằng lệnh `lsblk`
+    
+        ```sh
+        root@c-dev:~# lsblk
+        NAME                         MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+        sr0                           11:0    1   574M  0 rom
+        vda                          253:0    0    60G  0 disk
+        |-vda1                       253:1    0   243M  0 part /boot
+        |-vda2                       253:2    0     1K  0 part
+        `-vda5                       253:5    0  59.8G  0 part
+          |-c--dev--vg-root (dm-0)   252:0    0  55.8G  0 lvm  /
+          `-c--dev--vg-swap_1 (dm-1) 252:1    0     4G  0 lvm
+        vdb                          253:16   0    30G  0 disk
+        ```
+    - Sửa dòng dưới trong file `/etc/lvm/lvm.conf` (Dòng này mặc định không có, devstack tự thêm vào, lưu ý `vdb`)
+    
+        ```sh
+        global_filter = [ "a|loop0|", "a|loop1|", "a|vda5|", "a|vdb|", "r|.*|" ]  # from devstack
+        ```
+    
+    - Tạo LVM physical volume 
+    
+        ```sh
+        pvcreate /dev/vdb
+        ```
+    
+    - Tạo  LVM volume group (lưu ý tên `stack-volumes-lvmdriver-1`)
+    
+    ```sh
+    vgcreate stack-volumes-lvmdriver-1 /dev/sdb
+    ```
+    
+    - Kiểm tra lại xem volume group đã được tạo hay chưa bằng lệnh `vgdisplay`
+    
+        ```sh
+        root@c-dev:~# vgdisplay
+          --- Volume group ---
+          VG Name               stack-volumes-lvmdriver-1
+          System ID
+          Format                lvm2
+          Metadata Areas        1
+          Metadata Sequence No  3
+          VG Access             read/write
+          VG Status             resizable
+          MAX LV                0
+          Cur LV                2
+          Open LV               2
+          Max PV                0
+          Cur PV                1
+          Act PV                1
+          VG Size               30.00 GiB
+          PE Size               4.00 MiB
+          Total PE              7679
+          Alloc PE / Size       768 / 3.00 GiB
+          Free  PE / Size       6911 / 27.00 GiB
+          VG UUID               W2JYeD-u2FD-h1Ff-vbLO-tB8f-JoLd-7rOMBw
+
+          --- Volume group ---
+          VG Name               c-dev-vg
+          System ID
+          Format                lvm2
+          Metadata Areas        1
+          Metadata Sequence No  3
+          VG Access             read/write
+          VG Status             resizable
+          MAX LV                0
+          Cur LV                2
+          Open LV               1
+          Max PV                0
+          Cur PV                1
+          Act PV                1
+          VG Size               59.76 GiB
+          PE Size               4.00 MiB
+          Total PE              15298
+          Alloc PE / Size       15298 / 59.76 GiB
+          Free  PE / Size       0 / 0
+          VG UUID               BgfMe0-DGIT-Pyq8-BXFo-5LgJ-XScZ-cdTCRH
+        ```
+        
+    - Sau đó chạy `rejoin-stack`
+
+          
 ### Xử lý devstack sau khi cài xong
 ```sh
 
