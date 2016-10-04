@@ -106,9 +106,9 @@ Tham khảo file NO-L3-controller-local.conf
     
     - Tạo  LVM volume group (lưu ý tên `stack-volumes-lvmdriver-1`)
     
-    ```sh
-    vgcreate stack-volumes-lvmdriver-1 /dev/sdb
-    ```
+        ```sh
+        vgcreate stack-volumes-lvmdriver-1 /dev/sdb
+        ```
     
     - Kiểm tra lại xem volume group đã được tạo hay chưa bằng lệnh `vgdisplay`
     

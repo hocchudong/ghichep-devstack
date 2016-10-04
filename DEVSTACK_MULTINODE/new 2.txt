@@ -1,0 +1,84 @@
+## Thuc hien
+# su - stack 
+# git clone https://github.com/openstack-dev/devstack.git
+# hoac 
+# git clone -b stable/mitaka https://github.com/openstack-dev/devstack.git
+# Tao file local nhu ben duoi 
+############################################################################################
+
+[[local|localrc]]
+DEST=/opt/stack
+
+# Logging
+LOGFILE=$DEST/logs/stack.sh.log
+VERBOSE=True
+SCREEN_LOGDIR=$DEST/logs/screen
+
+# RECLONE=yes
+# OFFLINE=False
+
+# Controller  NODE IP
+HOST_IP=172.16.69.228
+
+# Credentials
+ADMIN_PASSWORD=openstack
+MYSQL_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=$ADMIN_PASSWORD
+
+MYSQL_HOST=$HOST_IP
+RABBIT_HOST=$HOST_IP
+CINDER_SERVICE_HOST=$HOST_IP
+GLANCE_HOSTPORT=$HOST_IP:9292
+DATABASE_TYPE=mysql
+
+ENABLED_SERVICES=key,rabbit,mysql,horizon
+ENABLED_SERVICES+=,n-api,n-crt,n-cpu,n-net,n-cond,n-sch,n-novnc,n-cauth
+ENABLED_SERVICES+=,g-api,g-reg
+
+enable_plugin ceilometer https://git.openstack.org/openstack/ceilometer
+enable_service ceilometer
+
+enable_plugin gnocchi https://github.com/openstack/gnocchi master
+enable_service gnocchi-api,gnocchi-metricd
+enable_service gnocchi-grafana
+
+##  SWIFT Service
+enable_service s-proxy s-object s-container s-account
+SWIFT_REPLICAS=1
+SWIFT_HASH=66a3d6b56c1f479c8b4e70ab5c2000f5
+
+##  CINDER Service
+enable_service c-api c-sch c-vol c-bak
+VOLUME_GROUP="stack-volumes"
+VOLUME_NAME_PREFIX="volume-"
+
+# Enabling Neutron (network) Service
+disable_service n-net
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-l3
+enable_service q-meta
+enable_service q-metering
+enable_service neutron
+
+## Khai bao cac tham so cho neutron
+# ml2
+Q_PLUGIN=ml2
+Q_AGENT=openvswitch
+
+PUBLIC_INTERFACE=eth1
+
+Q_USE_PROVIDERNET_FOR_PUBLIC=True
+Q_L3_ENABLED=True
+Q_USE_SECGROUP=True
+OVS_PHYSICAL_BRIDGE=br-ex
+PUBLIC_BRIDGE=br-ex
+OVS_BRIDGE_MAPPINGS=public:br-ex
+
+Q_ML2_PLUGIN_PATH_MTU=1454
+
+# Setup phien ban IP se su dung
+IP_VERSION=4
