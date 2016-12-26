@@ -7,6 +7,7 @@
 # git clone https://github.com/openstack-dev/devstack.git
 # git clone -b stable/newton https://github.com/openstack-dev/devstack.git
 # git clone -b stable/mitaka https://github.com/openstack-dev/devstack.git
+
 #############################################################################
 
 [[local|localrc]]
@@ -19,7 +20,7 @@ SCREEN_LOGDIR=$DEST/logs/screen
 OFFLINE=False
 
 # Controller  NODE IP
-HOST_IP=172.16.69.228
+HOST_IP=172.16.69.225
 
 MULTI_HOST=True
 
@@ -85,7 +86,7 @@ Q_ML2_TENANT_NETWORK_TYPE=vxlan
 
 # Networking
 FLOATING_RANGE=172.16.69.0/24
-Q_FLOATING_ALLOCATION_POOL=start=172.16.69.140,end=172.16.69.149
+Q_FLOATING_ALLOCATION_POOL=start=172.16.69.30,end=172.16.69.39
 PUBLIC_NETWORK_GATEWAY=172.16.69.1
 
 # Khai bao dai mang private
