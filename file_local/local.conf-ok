@@ -1,5 +1,6 @@
 
 git clone -b stable/mitaka https://github.com/openstack-dev/devstack.git
+git clone -b mitaka-eol https://github.com/openstack-dev/devstack.git
 
 ################################################################################# 
 
