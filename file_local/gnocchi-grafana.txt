@@ -1,0 +1,128 @@
+# Date: 12.11.2017
+# Tham khao: https://maestropandy.wordpress.com/2017/10/25/best-way-to-install-openstack-ocata-devstack-with-tricks/
+# cai goi  "apt-get install uuid-runtime" de ho tro gnocchi
+# git clone https://github.com/openstack-dev/devstack.git
+# git clone -b stable/pike https://github.com/openstack-dev/devstack.git
+# cd devstack
+# Tao file local.conf voi noi dung duoi
+###############################
+
+[[local|localrc]]
+DEST=/opt/stack
+
+# Logging
+LOGFILE=$DEST/logs/stack.sh.log
+VERBOSE=True
+SCREEN_LOGDIR=$DEST/logs/screen
+OFFLINE=False
+
+# Controller  NODE IP
+HOST_IP=172.16.68.230
+ADMIN_PASSWORD=Welcome123
+
+ADMIN_PASSWORD=$ADMIN_PASSWORD
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SWIFT_PASSWORD=$ADMIN_PASSWORD
+SWIFT_HASH=$ADMIN_PASSWORD
+
+OPENSTACK_VERSION=pike
+CINDER_BRANCH=stable/$OPENSTACK_VERSION
+CEILOMETER_BRANCH=stable/$OPENSTACK_VERSION
+AODH_BRANCH=stable/$OPENSTACK_VERSION
+GLANCE_BRANCH=stable/$OPENSTACK_VERSION
+HEAT_BRANCH=stable/$OPENSTACK_VERSION
+HORIZON_BRANCH=stable/$OPENSTACK_VERSION
+KEYSTONE_BRANCH=stable/$OPENSTACK_VERSION
+NEUTRON_BRANCH=stable/$OPENSTACK_VERSION
+NOVA_BRANCH=stable/$OPENSTACK_VERSION
+SWIFT_BRANCH=stable/$OPENSTACK_VERSION
+ZAQAR_BRANCH=stable/$OPENSTACK_VERSION
+MAGNUM_BRANCH=stable/$OPENSTACK_VERSION
+MURANO_BRANCH=stable/$OPENSTACK_VERSION
+OCTAVIA_BRANCH=stable/$OPENSTACK_VERSION
+BARBICAN_BRANCH=stable/$OPENSTACK_VERSION
+
+RECLONE=no
+
+VOLUME_BACKING_FILE_SIZE=50G
+
+enable_service rabbit
+
+# Ensure we are using neutron networking rather than nova networking
+disable_service n-net
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-l3
+enable_service q-meta
+enable_service neutron
+
+# Disable LBaaS(v1) service
+disable_service q-lbaas
+
+# Enable LBaaS(v2) services
+enable_service q-lbaasv2
+enable_service octavia
+enable_service o-cw
+enable_service o-hk
+enable_service o-hm
+enable_service o-api
+
+# Enable heat plugin
+enable_plugin heat https://git.openstack.org/openstack/heat $HEAT_BRANCH
+# Enable barbican services
+enable_plugin barbican https://git.openstack.org/openstack/barbican $BARBICAN_BRANCH
+
+# Enable Neutron-lbaas 
+enable_plugin neutron-lbaas https://git.openstack.org/openstack/neutron-lbaas $NEUTRON_BRANCH
+enable_plugin neutron-lbaas-dashboard https://git.openstack.org/openstack/neutron-lbaas-dashboard $NEUTRON_BRANCH
+
+enable_plugin octavia https://git.openstack.org/openstack/octavia $OCTAVIA_BRANCH
+
+#Enable Aodh and ceilometer
+enable_plugin ceilometer git://git.openstack.org/openstack/ceilometer $CEILOMETER_BRANCH
+
+enable_plugin aodh https://git.openstack.org/openstack/aodh $AODH_BRANCH
+
+# Enable Gnocchi
+enable_plugin gnocchi https://github.com/gnocchixyz/gnocchi stable/4.0
+enable_service gnocchi-grafana,gnocchi-api,gnocchi-metricd
+
+## Khai bao cac tham so cho neutron
+# ml2
+Q_PLUGIN=ml2
+Q_AGENT=openvswitch
+
+# vxlan
+Q_ML2_TENANT_NETWORK_TYPE=vxlan
+
+# Networking
+FLOATING_RANGE=192.168.20.0/24
+Q_FLOATING_ALLOCATION_POOL=start=192.168.20.100,end=192.168.20.130
+PUBLIC_NETWORK_GATEWAY=192.168.20.1
+
+# Khai bao dai mang private
+IPV4_ADDRS_SAFE_TO_USE=10.10.100.0/24
+NETWORK_GATEWAY=10.10.100.1
+
+PUBLIC_INTERFACE=ens5
+
+Q_USE_PROVIDERNET_FOR_PUBLIC=True
+Q_L3_ENABLED=True
+Q_USE_SECGROUP=True
+OVS_PHYSICAL_BRIDGE=br-ex
+PUBLIC_BRIDGE=br-ex
+OVS_BRIDGE_MAPPINGS=public:br-ex
+
+Q_ML2_PLUGIN_PATH_MTU=1454
+
+# Setup phien ban IP se su dung
+IP_VERSION=4
+
+## Vo hieu hoa cac dich vu sau
+
+disable_service n-net
+disable_service tempest
